@@ -2,23 +2,21 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { FormGroup, ControlLabel, FormControl, Button } from "react-bootstrap";
 
-class SignUp extends Component {
+class SignIn extends Component {
   constructor() {
     super();
 
     this.state = {
       username: "",
-      password: "",
-      confirmPassword: "",
+      password: ""
     };
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onSignUp({
+    this.props.onSignIn({
       username: this.state.username,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword
+      password: this.state.password
     });
   }
 
@@ -51,29 +49,16 @@ class SignUp extends Component {
           />
         </FormGroup>
 
-        <FormGroup>
-          <ControlLabel>Confirm Password</ControlLabel>
-          <FormControl
-            type="password"
-            name="confirmPassword"
-            onChange={e => {
-              this.setState({[e.target.name]: e.target.value});
-            }}
-            placeholder="Confirm Password"
-            value={this.state.confirmPassword}
-          />
-        </FormGroup>
-
         <Button type="submit">
-         Sign Up
+         Sign In
        </Button>
       </form>
     );
   }
 }
 
-SignUp.propTypes = {
-  onSignUp: PropTypes.func.isRequired
+SignIn.propTypes = {
+  onSignIn: PropTypes.func.isRequired
 };
 
-export default SignUp;
+export default SignIn;

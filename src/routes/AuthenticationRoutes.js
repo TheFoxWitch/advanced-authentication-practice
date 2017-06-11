@@ -5,7 +5,7 @@ import "../services/passport";
 
 const router = express.Router();
 const signinStrategy = passport.authenticate("signinStrategy", { session: false });
-
+//reference to the controllers
 router.post("/api/signup",signUp );
 router.post("/api/signin", signinStrategy, signIn);
 

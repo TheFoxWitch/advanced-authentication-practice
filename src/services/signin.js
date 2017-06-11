@@ -2,6 +2,7 @@ import bcrypt from "bcrypt-nodejs";
 import User from "../models/UserModel";
 import LocalStrategy from "passport-local";
 
+//So I am aware of Passport
 export default new LocalStrategy(function (username, password, done) {
   console.log("Looking for a user with the username",username);
   User.findOne({ username: username }).exec()
@@ -33,5 +34,3 @@ export default new LocalStrategy(function (username, password, done) {
   })
   .catch(err => done(err, false));
 });
-
-

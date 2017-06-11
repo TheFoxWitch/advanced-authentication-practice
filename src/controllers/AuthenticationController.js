@@ -3,12 +3,13 @@ import bcrypt from "bcrypt-nodejs";
 import jwt from "jwt-simple";
 
 export function signIn(req, res) {
-  
+
   console.log("logged in now");
   res.json({ token: tokenForUser(req.user)});
 }
 export function signUp(req, res, next) {
   const { username, password } = req.body;
+  //you don't need this in ES6, you can just reuse username below
   let u = username;
   // If no username or password was supplied return an error
   if (!username || !password) {
@@ -16,6 +17,7 @@ export function signUp(req, res, next) {
       .json({ error: "You must provide an username and password" });
   }
   console.log("Look for a user with the username");
+  //criteria object
   User.findOne({ username:u}).exec()
   .then((existingUser) => {
     // If the user exist return an error on sign up
@@ -30,6 +32,7 @@ export function signUp(req, res, next) {
 }
 function saveUser(username,password,res,next) {
   // User bcrypt to has their password, remember, we never save plain text passwords!
+  //adds a random value to a password if it's weak/too short
   bcrypt.genSalt(10, function (err, salt) {
     console.log("the salt",salt);
     bcrypt.hash(password, salt, null, function (err, hashedPassword) {
@@ -51,4 +54,3 @@ function tokenForUser(user) {
   const timestamp = new Date().getTime();
   return jwt.encode({ userId: user.id, iat: timestamp }, process.env.SECRET);
 }
-
