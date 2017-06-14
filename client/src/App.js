@@ -4,6 +4,9 @@ import "./App.css";
 import SignUpSignIn from "./SignUpSignIn";
 import TopNavbar from "./TopNavbar";
 import Secret from "./Secret";
+import Secured1 from "./Secured1";
+import Secured2 from "./Secured2";
+import Secured3 from "./Secured3";
 
 class App extends Component {
   constructor() {
@@ -23,7 +26,12 @@ class App extends Component {
       this.setState({
         signUpSignInError: "Must Provide All Fields"
       });
-    } else {
+    } if (password.trim() !== confirmPassword.trim() ){
+        this.setState({
+          signUpSignInError: "Passowrds do not match!"
+      });
+    }
+     else {
 
       fetch("/api/signup", {
         method: "POST",
@@ -32,12 +40,19 @@ class App extends Component {
       }).then((res) => {
         return res.json();
       }).then((data) => {
+        if (data.error) {
+          this.setState({
+            signUpSignInError: data.error
+          });
+        }
+          else {
         const { token } = data;
         localStorage.setItem("token", token);
         this.setState({
           signUpSignInError: "",
           authenticated: token
-        });
+          });
+        }
       });
     }
   }
@@ -49,7 +64,7 @@ class App extends Component {
         signUpSignInError: "Must Provide All Fields"
       });
     } else {
-
+      // headers have s specific set of things that can go in it
       fetch("/api/signin", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -90,6 +105,9 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={() => <h1>I am protected!</h1>} />
           <Route exact path="/secret" component={Secret} />
+          <Route exact path="/secured1" component={Secured1} />
+          <Route exact path="/secured2" component={Secured2} />
+          <Route exact path="/secured3" component={Secured3} />
           <Route render={() => <h1>NOT FOUND!</h1>} />
         </Switch>
       </div>

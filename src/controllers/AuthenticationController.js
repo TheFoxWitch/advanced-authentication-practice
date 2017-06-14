@@ -50,6 +50,7 @@ function saveUser(username,password,res,next) {
     });
   });
 }
+// encrypt the token for new user
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
   return jwt.encode({ userId: user.id, iat: timestamp }, process.env.SECRET);
