@@ -21,10 +21,10 @@ class SignUpSignIn extends Component {
           {this.props.error && this.renderError()}
           <Tabs defaultActiveKey={1} id="signup-signin-tabs">
             <Tab eventKey={1} title="Sign Up">
-              <SignUp onSignUp={this.props.onSignUp} />
+              <SignUp handleCheckIfUserExists={this.props.handleCheckIfUserExists} onSignUp={this.props.onSignUp} />
             </Tab>
             <Tab eventKey={2} title="Sign In">
-              <SignIn onSignIn={this.props.onSignIn} /> 
+              <SignIn onSignIn={this.props.onSignIn} />
             </Tab>
           </Tabs>
         </Col>

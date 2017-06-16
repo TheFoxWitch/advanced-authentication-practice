@@ -21,6 +21,11 @@ class SignUp extends Component {
       confirmPassword: this.state.confirmPassword
     });
   }
+//check the implementation
+checkIfUserExists(value) {
+  console.log(value);
+  this.props.handleCheckIfUserExists(value);
+}
 
   render() {
     return (
@@ -31,6 +36,10 @@ class SignUp extends Component {
             type="email"
             name="username"
             onChange={e => {
+              // check to see if the name is more than 3 chars
+              if (e.target.value.length > 3) {
+                  this.checkIfUserExists(e.target.value)
+              }
               this.setState({[e.target.name]: e.target.value});
             }}
             placeholder="Enter Email"

@@ -20,6 +20,15 @@ class App extends Component {
     this.handleSignUp = this.handleSignUp.bind(this);
   }
 
+  handleCheckIfUserExists(username) {
+    fetch("/api/usernames", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({username})
+    }).then((res) => console.log(res))
+    .catch(err => console.error(err));
+  }
+
   handleSignUp(credentials) {
     const { username, password, confirmPassword } = credentials;
     if (!username.trim() || !password.trim() ) {
@@ -94,6 +103,7 @@ class App extends Component {
       <SignUpSignIn
         error={this.state.signUpSignInError}
         onSignUp={this.handleSignUp}
+        handleCheckIfUserExists={this.handleCheckIfUserExists}
         onSignIn={this.handleSignIn}
       />
     );
