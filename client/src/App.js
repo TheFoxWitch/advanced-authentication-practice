@@ -18,15 +18,42 @@ class App extends Component {
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
+    this.checkIfUserExists = this.checkIfUserExists.bind(this);
+
   }
 
+
+//method to handle error on typing a username that exists
   handleCheckIfUserExists(username) {
     fetch("/api/usernames", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({username})
     }).then((res) => console.log(res))
-    .catch(err => console.error(err));
+    .catch(err => {console.error(err)
+      this.setState({
+        signUpSignInError: "Username is already in use"
+      });
+    }
+
+    );
+  }
+
+  //checks if there is an error when this is passed
+  checkIfUserExists(username) {
+    fetch("/api/checkexists", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({username: username})
+    }).then((res) => {
+      return res.json();
+    }).then((data) => {
+      if (data.error) {
+        this.setState({
+          signUpSignInError: data.error
+        });
+      }
+    })
   }
 
   handleSignUp(credentials) {
@@ -66,6 +93,8 @@ class App extends Component {
     }
   }
 
+
+
   handleSignIn(credentials) {
     const { username, password } = credentials;
     if (!username.trim() || !password.trim() ) {
@@ -103,7 +132,7 @@ class App extends Component {
       <SignUpSignIn
         error={this.state.signUpSignInError}
         onSignUp={this.handleSignUp}
-        handleCheckIfUserExists={this.handleCheckIfUserExists}
+        handleCheckIfUserExists={this.checkIfUserExists}
         onSignIn={this.handleSignIn}
       />
     );

@@ -33,10 +33,10 @@ export function signUp(req, res, next) {
 
   */
   //what I'm trying to get as typed
-  const u  = req.body.username;
-  User.findOne({ username:u}).exec()
+  const usr  = req.body.username;
+  User.findOne({ username:usr}).exec()
   .then((existingUser) => {
-    // If the user exist return an error on sign up
+    // If the user exists return an error on sign up
     if (existingUser) {
       console.log("This username is already being used");
       return res.status(422)
@@ -46,6 +46,21 @@ export function signUp(req, res, next) {
     saveUser(username,password,res,next);
   })
   .catch(err => next(err));
+}
+export function existingUser(req, res) {
+  const usr  = req.body.username;
+  User.findOne({ username:usr}).exec()
+  .then((existingUser) => {
+    // If the user exists return an error on sign up
+    if (existingUser) {
+      console.log("This username is already being used");
+      return res.status(422)
+        .json({ error: "Username is in use" });
+    } else {
+      return res.json({success: "Username is free to use!"});
+    }
+    console.log("This username is free to use");
+  })
 }
 function saveUser(username,password,res,next) {
   // User bcrypt to has their password, remember, we never save plain text passwords!

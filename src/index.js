@@ -6,7 +6,6 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import passport from "passport";
 import authenticationRoutes from "./routes/AuthenticationRoutes";
-import UserExistsRoutes from "./routes/UserExistsRoutes";
 
 mongoose.set("debug", true);
 mongoose.Promise = global.Promise;
@@ -30,9 +29,6 @@ app.use(authenticationRoutes);
 app.get("/api/anyonecanseethis", function (req, res) {
   res.send("Hooray, I am not secured. Anyone can get this data");
 });
-
-app.use(UserExistsRoutes);
-
 //boilerplate for authentication/what you want secured goes below this
 const authStrategy = passport.authenticate("authStrategy", { session: false });
 app.use(authStrategy);
