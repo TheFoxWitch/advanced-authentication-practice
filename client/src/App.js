@@ -13,7 +13,9 @@ class App extends Component {
     super();
     this.state = {
       signUpSignInError: "",
-      authenticated: localStorage.getItem("token") || false
+      authenticated: localStorage.getItem("token") || false,
+      success: "username is free to use",
+      ulength: false
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
@@ -32,14 +34,22 @@ class App extends Component {
     }).then((res) => console.log(res))
     .catch(err => {console.error(err)
       this.setState({
-        signUpSignInError: "Username is already in use"
+        signUpSignInError: "Username is already in use",
+        ulength: true
       });
     }
 
     );
   }
+  triggerUserLengnth() {
+    console.log('trigger user length');
+    this.setState({
+      ulength: false
+    })
+  }
 
   //checks if there is an error when this is passed
+  //and displays the error as per line 21
   checkIfUserExists(username) {
     fetch("/api/checkexists", {
       method: "POST",
@@ -50,7 +60,13 @@ class App extends Component {
     }).then((data) => {
       if (data.error) {
         this.setState({
-          signUpSignInError: data.error
+          signUpSignInError: data.error,
+          ulength: true
+        });
+      } else {
+        this.setState({
+          signUpSignInError: data.success,
+          ulength: true
         });
       }
     })
@@ -134,6 +150,8 @@ class App extends Component {
         onSignUp={this.handleSignUp}
         handleCheckIfUserExists={this.checkIfUserExists}
         onSignIn={this.handleSignIn}
+        ulength={this.state.ulength}
+        triggerUserLength={this.triggerUserLength}
       />
     );
   }

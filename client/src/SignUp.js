@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { FormGroup, ControlLabel, FormControl, Button } from "react-bootstrap";
 
+
 class SignUp extends Component {
   constructor() {
     super();
@@ -23,7 +24,6 @@ class SignUp extends Component {
   }
 //check the implementation
 checkIfUserExists(value) {
-  console.log(value);
   this.props.handleCheckIfUserExists(value);
 }
 

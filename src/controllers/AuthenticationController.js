@@ -41,12 +41,16 @@ export function signUp(req, res, next) {
       console.log("This username is already being used");
       return res.status(422)
         .json({ error: "Username is in use" });
+    } else {
+      return res.status(200)
+        .json({ succees: "Okay to use" });
     }
     console.log("This username is free to use");
     saveUser(username,password,res,next);
   })
   .catch(err => next(err));
 }
+//this function is what is called in the
 export function existingUser(req, res) {
   const usr  = req.body.username;
   User.findOne({ username:usr}).exec()
